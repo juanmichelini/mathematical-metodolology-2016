@@ -4,9 +4,9 @@ import Compute
 import SimpleSubst
 import Type
 import Misc
-
+import Data.List hiding (repeat)
+import Prelude hiding (repeat)
 import Data.Maybe
-import Data.List
 
 data Afirm a = EQA [(Name, SimpleType)] a a -- | And [Obj a] | Or [Obj a] | If [Obj a] (Obj a) | Bot
             deriving (Eq)
@@ -52,7 +52,7 @@ triv  (xs, EQA vs y z) | y == z = Just []
 --dispatch t (xs, If y z) = case t ((y:xs), z) of { Just u -> Just$ If y u; Nothing -> Nothing;}
 --dispatch t (xs, Bot) = Nothing
 compute :: Env -> Tactic AHExp
-compute env (xs, EQA vs y z) = case (flip repetir (cWideLazy env) y, flip repetir (cWideLazy env) z) of {
+compute env (xs, EQA vs y z) = case (flip repeat (cWideLazy env) y, flip repeat (cWideLazy env) z) of {
                                 (Just v, Just w)  -> Just [(xs, EQA vs v w)];
                                 (Just v, Nothing) -> Just [(xs, EQA vs v z)];
                                 (Nothing, Just w) -> Just [(xs, EQA vs y w)];

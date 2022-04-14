@@ -13,7 +13,7 @@ We provide a method that can explore both of those spaces in a way that results 
 The strongest result so far is that it finds the reverse::[a] -> [a] function, and then shows that reverse(reverse xs) = xs. This requires that it first discovers the lemma reverse(xs ++ ys) = (reverse ys) ++ (reverse xs), which it does.
 
 The method is presented to be followed by humands in the pdf document: Foundations.
-Under te folder code we present the same method as Haskell code.
+Under te folder code we present the same method as Haskell code. Running the Main, it will output the latex code that includes all functions in the document.
 
 
 

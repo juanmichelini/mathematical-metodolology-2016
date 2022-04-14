@@ -28,11 +28,19 @@ repetirL x f = [x] ++ case f x of {
 firstJust :: [Maybe a] -> Maybe a
 firstJust = listToMaybe . catMaybes
 
+enPos :: Int -> [a] -> Maybe a
+enPos 0 [] = Nothing
+enPos 0 (x:xs) = Just x
+enPos n (x:xs) = enPos (n-1) xs
+
 firstJustF :: [a -> Maybe b] -> a -> Maybe b
 firstJustF fs x = firstJust (map (\f -> f x) fs)
 
 try :: (a -> Maybe a) -> a -> a
 try f x = case f x of { Just y -> y; Nothing -> x} 
+
+anyJust :: [Maybe a] -> [a]
+anyJust xs = map (fromJust) $ filter (isJust) xs
 
 allJust :: [Maybe a] -> Maybe [a]
 allJust [] = Just []
