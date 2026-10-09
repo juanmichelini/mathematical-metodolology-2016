@@ -1,0 +1,50 @@
+name: timing
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  timing:
+    name: Main unoptimized and interpreted
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.4.8'
+      - name: Record machine
+        run: |
+          mkdir -p ci-out
+          { lscpu | grep -E "Model name|^CPU\(s\)|MHz"; ghc --version; } | tee ci-out/machine.txt
+      - name: Compiled with -O0
+        shell: bash
+        run: |
+          ghc -O0 -icode -outputdir build-o0 code/Main.hs -o main-o0 > /dev/null
+          set +e
+          /usr/bin/time -v ./main-o0 > ci-out/o0.tex 2> ci-out/o0.stderr
+          echo "exit status: $?" | tee ci-out/o0.status
+          grep -E "Elapsed|Maximum resident" ci-out/o0.stderr | tee -a ci-out/o0.status
+          cmp ci-out/o0.tex <(echo) > /dev/null 2>&1; md5sum ci-out/o0.tex | tee -a ci-out/o0.status
+      - name: Interpreted with runghc (like ghci), 40 minute cap
+        shell: bash
+        run: |
+          cd code
+          set +e
+          /usr/bin/time -v timeout 2400 runghc Main.hs > ../ci-out/runghc.tex 2> ../ci-out/runghc.stderr
+          echo "exit status: $? (124 = hit the 40 minute cap)" | tee ../ci-out/runghc.status
+          grep -E "Elapsed|Maximum resident" ../ci-out/runghc.stderr | tee -a ../ci-out/runghc.status
+          md5sum ../ci-out/runghc.tex | tee -a ../ci-out/runghc.status
+      - name: Publish results to branch ci-results-timing
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-results-timing
+          git rm -rf --cached . -q
+          git add -f ci-out
+          git commit -q -m "timing results for ${{ github.sha }}"
+          git push -f origin ci-results-timing
