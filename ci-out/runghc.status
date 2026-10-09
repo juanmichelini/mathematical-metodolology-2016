@@ -1,0 +1,4 @@
+exit status: 0 (124 = hit the 40 minute cap)
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 38:23.50
+	Maximum resident set size (kbytes): 247736
+92ac808ad5719bef5848042bf5aa7311  ../ci-out/runghc.tex
