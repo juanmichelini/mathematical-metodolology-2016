@@ -48,20 +48,20 @@ jobs:
         run: cabal build exe:main
       - name: Run Main twice and time it
         run: |
-          mkdir -p results
-          /usr/bin/time -v $(cabal list-bin exe:main) +RTS -s -RTS > results/appendixB.tex 2> results/run1.stderr
-          $(cabal list-bin exe:main) > results/appendixB.run2.tex
-          cmp results/appendixB.tex results/appendixB.run2.tex && echo "deterministic: identical" | tee results/determinism.txt
+          mkdir -p ci-out
+          /usr/bin/time -v $(cabal list-bin exe:main) +RTS -s -RTS > ci-out/appendixB.tex 2> ci-out/run1.stderr
+          $(cabal list-bin exe:main) > ci-out/appendixB.run2.tex
+          cmp ci-out/appendixB.tex ci-out/appendixB.run2.tex && echo "deterministic: identical" | tee ci-out/determinism.txt
       - name: Compare with thesis Appendix B
         shell: bash
         run: |
-          sudo apt-get install -y poppler-utils > /dev/null
-          python3 scripts/compare_appendixB.py results/appendixB.tex Foundations.pdf | tee results/appendixB_comparison.md
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          python3 scripts/compare_appendixB.py ci-out/appendixB.tex Foundations.pdf | tee ci-out/appendixB_comparison.md
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: appendixB-ghc-${{ matrix.ghc }}
-          path: results/
+          path: ci-out/
       - name: Publish results to branch ci-results-main
         if: always()
         run: |
@@ -69,7 +69,7 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git checkout --orphan ci-results-main
           git rm -rf --cached . -q
-          git add -f results
+          git add -f ci-out
           git commit -q -m "CI results for ${{ github.sha }}"
           git push -f origin ci-results-main
 
@@ -87,17 +87,17 @@ jobs:
       - name: Check which lemmas are proved (fails if any is unproved)
         shell: bash
         run: |
-          mkdir -p results
-          $(cabal list-bin exe:check-lemmas) | tee results/check_lemmas.txt
+          mkdir -p ci-out
+          $(cabal list-bin exe:check-lemmas) | tee ci-out/check_lemmas.txt
       - name: Run provelemas 30
         run: |
-          mkdir -p results
-          /usr/bin/time -v $(cabal list-bin exe:test-lemmas) +RTS -s -RTS > results/provelemas.txt 2> results/provelemas.stderr
+          mkdir -p ci-out
+          /usr/bin/time -v $(cabal list-bin exe:test-lemmas) +RTS -s -RTS > ci-out/provelemas.txt 2> ci-out/provelemas.stderr
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lemmas
-          path: results/
+          path: ci-out/
       - name: Publish results to branch ci-results-lemmas
         if: always()
         run: |
@@ -105,7 +105,7 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git checkout --orphan ci-results-lemmas
           git rm -rf --cached . -q
-          git add -f results
+          git add -f ci-out
           git commit -q -m "CI results for ${{ github.sha }}"
           git push -f origin ci-results-lemmas
 
@@ -121,13 +121,13 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          mkdir -p results
-          cabal build exe:experiments 2>&1 | tee results/build.log
+          mkdir -p ci-out
+          cabal build exe:experiments 2>&1 | tee ci-out/build.log
           exit ${PIPESTATUS[0]}
       - name: Run experiments
         run: |
-          mkdir -p results
-          /usr/bin/time -v $(cabal list-bin exe:experiments) +RTS -s -RTS > results/experiments.txt 2> results/experiments.stderr
+          mkdir -p ci-out
+          /usr/bin/time -v $(cabal list-bin exe:experiments) +RTS -s -RTS > ci-out/experiments.txt 2> ci-out/experiments.stderr
       - name: Publish results to branch ci-results-experiments
         if: always()
         run: |
@@ -135,6 +135,6 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git checkout --orphan ci-results-experiments
           git rm -rf --cached . -q
-          git add -f results
+          git add -f ci-out
           git commit -q -m "CI results for ${{ github.sha }}"
           git push -f origin ci-results-experiments
