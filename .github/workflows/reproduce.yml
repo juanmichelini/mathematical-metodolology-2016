@@ -115,7 +115,11 @@ jobs:
         with:
           ghc-version: '9.4.8'
       - name: Build
-        run: cabal build exe:experiments
+        shell: bash
+        run: |
+          mkdir -p results
+          cabal build exe:experiments 2>&1 | tee results/build.log
+          exit ${PIPESTATUS[0]}
       - name: Run experiments
         run: |
           mkdir -p results
