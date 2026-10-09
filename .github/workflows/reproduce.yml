@@ -52,6 +52,11 @@ jobs:
           /usr/bin/time -v $(cabal list-bin exe:main) +RTS -s -RTS > results/appendixB.tex 2> results/run1.stderr
           $(cabal list-bin exe:main) > results/appendixB.run2.tex
           cmp results/appendixB.tex results/appendixB.run2.tex && echo "deterministic: identical" | tee results/determinism.txt
+      - name: Compare with thesis Appendix B
+        shell: bash
+        run: |
+          sudo apt-get install -y poppler-utils > /dev/null
+          python3 scripts/compare_appendixB.py results/appendixB.tex Foundations.pdf | tee results/appendixB_comparison.md
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -79,13 +84,11 @@ jobs:
           ghc-version: '9.4.8'
       - name: Build
         run: cabal build exe:test-lemmas exe:check-lemmas
-      - name: Check which lemmas are proved
+      - name: Check which lemmas are proved (fails if any is unproved)
+        shell: bash
         run: |
           mkdir -p results
-          set +e
-          $(cabal list-bin exe:check-lemmas) > results/check_lemmas.txt
-          echo "exit status: $?" | tee results/check_lemmas.status
-          exit 0
+          $(cabal list-bin exe:check-lemmas) | tee results/check_lemmas.txt
       - name: Run provelemas 30
         run: |
           mkdir -p results
