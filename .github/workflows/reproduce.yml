@@ -77,7 +77,14 @@ jobs:
         with:
           ghc-version: '9.4.8'
       - name: Build
-        run: cabal build exe:test-lemmas
+        run: cabal build exe:test-lemmas exe:check-lemmas
+      - name: Check which lemmas are proved
+        run: |
+          mkdir -p results
+          set +e
+          $(cabal list-bin exe:check-lemmas) > results/check_lemmas.txt
+          echo "exit status: $?" | tee results/check_lemmas.status
+          exit 0
       - name: Run provelemas 30
         run: |
           mkdir -p results

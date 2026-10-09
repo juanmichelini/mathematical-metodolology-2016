@@ -22,3 +22,9 @@ executable test-lemmas
     main-is:          Test.hs
     other-modules:    Syntax, Util, Type, Compute, Prove, Propose, PrettyPrint
     ghc-options:      -main-is Test
+
+-- Reports which lemmas in Test.lemas the tactics prove; exits 1 if any is unproved.
+executable check-lemmas
+    import:           shared
+    main-is:          CheckLemmas.hs
+    other-modules:    Test, Syntax, Util, Type, Compute, Prove, Propose, PrettyPrint
