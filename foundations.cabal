@@ -28,3 +28,10 @@ executable check-lemmas
     import:           shared
     main-is:          CheckLemmas.hs
     other-modules:    Test, Syntax, Util, Type, Compute, Prove, Propose, PrettyPrint
+
+-- Measurements for issues #6 and #8: search sizes, timings, paciencia sensitivity, flipexp lemmas.
+executable experiments
+    import:           shared
+    main-is:          Experiments.hs
+    other-modules:    Main, Test, Syntax, Util, Type, Compute, Prove, Propose, PrettyPrint
+    ghc-options:      -main-is Experiments
