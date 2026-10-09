@@ -12,7 +12,8 @@ import Control.Exception (evaluate)
 import System.CPUTime (getCPUTime)
 import System.IO
 import Syntax
-import Prove (headProof)
+import Prove (headProof, Proof)
+import Type (Type)
 import Propose (findlemas)
 import PrettyPrint (toCLI)
 

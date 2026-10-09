@@ -22,6 +22,7 @@ jobs:
           ghc-version: ${{ matrix.ghc }}
           cabal-version: 'latest'
       - name: Build
+        shell: bash   # bash -eo pipefail, so a failed build is not hidden by tee
         run: cabal build all 2>&1 | tee build.log
       - name: Upload build log
         if: always()
