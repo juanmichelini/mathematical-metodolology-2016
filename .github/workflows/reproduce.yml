@@ -4,6 +4,9 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: build (GHC ${{ matrix.ghc }})
@@ -53,6 +56,16 @@ jobs:
         with:
           name: appendixB-ghc-${{ matrix.ghc }}
           path: results/
+      - name: Publish results to branch ci-results-main
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-results-main
+          git rm -rf --cached . -q
+          git add -f results
+          git commit -q -m "CI results for ${{ github.sha }}"
+          git push -f origin ci-results-main
 
   run-lemmas:
     name: run Test.hs lemma suite
@@ -74,3 +87,13 @@ jobs:
         with:
           name: lemmas
           path: results/
+      - name: Publish results to branch ci-results-lemmas
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-results-lemmas
+          git rm -rf --cached . -q
+          git add -f results
+          git commit -q -m "CI results for ${{ github.sha }}"
+          git push -f origin ci-results-lemmas
