@@ -1,18 +1,23 @@
--- Third iteration of the method.
+-- Next iteration of the method, with a chosen set of building blocks.
 --
 -- Main.hs runs two searches: the first uses only the base types (f0-f2), the
--- second may use f0-f2 as building blocks (f3-f30). This program runs the next
--- step in the same way: the 31 functions found so far, and the lemmas proved
--- about them, are available, and we look for new functions that use at least
--- one of f3-f30. The selection rule is the one Main uses for the second search
--- (at least 2 lemmas proved by induction).
+-- second may use f0-f2 as building blocks (f3-f30). This program runs a further
+-- search in the same way, but allows only a CHOSEN subset of f3-f30 as building
+-- blocks (on top of f0-f2), because with all 31 functions available the number
+-- of candidate programs is too large to even enumerate (it did not finish in 30
+-- minutes). New functions must use at least one of the chosen ones. The
+-- selection rule is Main's rule for the second search (at least 2 lemmas proved
+-- by induction).
+--
+-- KS is a comma separated list of function numbers, e.g. 3,12 for reverse and
+-- multiplication (numbers as in Appendix B).
 --
 -- Usage:
---   iterate-search count                      number of candidates
---   iterate-search sample K                   time K evenly spaced candidates
---   iterate-search run SHARD SHARDS SECONDS   process candidates i with
---                                             i mod SHARDS == SHARD until the
---                                             CPU time budget is used up
+--   iterate-search count KS
+--   iterate-search sample K KS                 time K evenly spaced candidates
+--   iterate-search run SHARD SHARDS SECONDS KS process candidates i with
+--                                              i mod SHARDS == SHARD until the
+--                                              CPU time budget is used up
 module Iterate where
 
 import qualified Main as M
@@ -30,22 +35,25 @@ import System.CPUTime (getCPUTime)
 import System.Environment (getArgs)
 import System.IO (hSetBuffering, stdout, BufferMode(LineBuffering))
 
--- Functions found by the second search, with their proofs (as numbered in Main).
-itSndFuns :: [(((Atm, Term), Type), [Proof])]
-itSndFuns = M.namedSndSel
+data ItCtx = ItCtx
+  { icEnv  :: Env
+  , icTEnv :: TEnv
+  , icRec  :: Rec
+  , icNew  :: [Atm]
+  }
 
-itSndEnv :: Env
-itSndEnv = M.fstEnv ++ [ (nom, def) | (((nom, def), _), _) <- itSndFuns ]
+-- Second-search functions selected by number, with their proofs.
+itChosen :: [Int] -> [(((Atm, Term), Type), [Proof])]
+itChosen ks = [ x | x@(((nom, _), _), _) <- M.namedSndSel
+                  , nom `elem` map (\k -> Var ("f" ++ show k)) ks ]
 
-itSndTEnv :: TEnv
-itSndTEnv = M.fstTEnv ++ [ (Atm nom, typ) | (((nom, _), typ), _) <- itSndFuns ]
-
--- Rewrite rules known after the second search.
-itSndRec :: Rec
-itSndRec = addAffirms itSndEnv M.fstRec (map headProof (concat (snds itSndFuns)))
-
-itNewFuns :: [Atm]
-itNewFuns = [ nom | (((nom, _), _), _) <- itSndFuns ]
+itCtx :: [Int] -> ItCtx
+itCtx ks = ItCtx env tenv rec [ nom | (((nom, _), _), _) <- chosen ]
+  where
+    chosen = itChosen ks
+    env    = M.fstEnv ++ [ (nom, def) | (((nom, def), _), _) <- chosen ]
+    tenv   = M.fstTEnv ++ [ (Atm nom, typ) | (((nom, _), typ), _) <- chosen ]
+    rec    = addAffirms env M.fstRec (map headProof (concat (snds chosen)))
 
 itDatas :: [DatasH]
 itDatas = M.datas
@@ -54,26 +62,24 @@ itDatas = M.datas
 itBaseTypes :: [Type]
 itBaseTypes = map (TAtm . TCon . fst) [itDatas !! 1, itDatas !! 3]
 
-itUsesNew :: Term -> Bool
-itUsesNew e = any (\a -> contiene a e) itNewFuns
-
-itCandidates :: [(Term, Type)]
-itCandidates = uni ++ bin
+itCandidates :: ItCtx -> [(Term, Type)]
+itCandidates ctx = uni ++ bin
   where
-    ok e = contiene (Var "f") e && itUsesNew e
+    usesNew e = any (\a -> contiene a e) (icNew ctx)
+    ok e = contiene (Var "f") e && usesNew e
     uni = filter (ok . fst)
             [ (f, tipo) | tipo <- armarTip 1 itBaseTypes
-                        , f <- enumFun itSndRec "f" tipo itDatas itSndTEnv ]
+                        , f <- enumFun (icRec ctx) "f" tipo itDatas (icTEnv ctx) ]
     bin = filter (\(e, _) -> ok e && twice e)
             [ (f, tipo) | tipo <- armarTip 2 itBaseTypes
-                        , f <- enumFun itSndRec "f" tipo itDatas itSndTEnv ]
+                        , f <- enumFun (icRec ctx) "f" tipo itDatas (icTEnv ctx) ]
     twice e = case e of
                 Abs _ (Abs y b) -> length (take 2 (filter ((Var y) ==) (termToAtm b))) == 2
                 _               -> False
 
-itSearch :: (Term, Type) -> [Proof]
-itSearch (f, t) =
-  findlemas ((Var "f", f) : itSndEnv) ((Atm (Var "f"), t) : itSndTEnv) itDatas M.paciencia itSndRec (Var "f")
+itSearch :: ItCtx -> (Term, Type) -> [Proof]
+itSearch ctx (f, t) =
+  findlemas ((Var "f", f) : icEnv ctx) ((Atm (Var "f"), t) : icTEnv ctx) itDatas M.paciencia (icRec ctx) (Var "f")
 
 itSecs :: IO Double
 itSecs = do
@@ -87,14 +93,14 @@ itReport i (f, t) ps = unlines (
   , "f :: " ++ toCLI t ] ++
   [ "  lemma" ++ (if containsIndc p then "*" else " ") ++ " " ++ toCLI (headProof p) | p <- ps ])
 
-itSample :: Int -> Int -> IO ()
-itSample k n = mapM_ one [0 .. k - 1]
+itSample :: ItCtx -> [(Term, Type)] -> Int -> Int -> IO ()
+itSample ctx cands k n = mapM_ one [0 .. k - 1]
   where
     step = max 1 (n `div` k)
     one j = do
       let i = min (n - 1) (j * step)
       a <- itSecs
-      let ps  = itSearch (itCandidates !! i)
+      let ps  = itSearch ctx (cands !! i)
           ind = length (filter containsIndc ps)
       _ <- evaluate ind
       b <- itSecs
@@ -102,10 +108,10 @@ itSample k n = mapM_ one [0 .. k - 1]
                 ++ show (length ps) ++ " lemmas, " ++ show ind ++ " by induction"
                 ++ (if ind >= 2 then ", KEPT" else ""))
 
-itRun :: Int -> Int -> Double -> IO ()
-itRun s st budget = loop (0 :: Int) (0 :: Int) mine
+itRun :: ItCtx -> [(Term, Type)] -> Int -> Int -> Double -> IO ()
+itRun ctx cands s st budget = loop (0 :: Int) (0 :: Int) mine
   where
-    mine  = [ (i, c) | (i, c) <- zip [0 ..] itCandidates, i `mod` st == s ]
+    mine  = [ (i, c) | (i, c) <- zip [0 ..] cands, i `mod` st == s ]
     total = length mine
     loop done kept [] =
       putStrLn ("DONE: processed " ++ show done ++ "/" ++ show total ++ ", kept " ++ show kept)
@@ -116,7 +122,7 @@ itRun s st budget = loop (0 :: Int) (0 :: Int) mine
                        ++ ", kept " ++ show kept ++ ", next candidate " ++ show i)
         else do
           a <- itSecs
-          let ps  = itSearch c
+          let ps  = itSearch ctx c
               ind = length (filter containsIndc ps)
           _ <- evaluate ind
           b <- itSecs
@@ -127,17 +133,28 @@ itRun s st budget = loop (0 :: Int) (0 :: Int) mine
             else return ()
           loop (done + 1) (if ind >= 2 then kept + 1 else kept) rest
 
+itParseKs :: String -> [Int]
+itParseKs str = map read (words (map (\c -> if c == ',' then ' ' else c) str))
+
 main :: IO ()
 main = do
   hSetBuffering stdout LineBuffering
   args <- getArgs
+  let ks = itParseKs (last args)
+  putStrLn ("building blocks: f0-f2 and " ++ show ks)
+  putStrLn "running the second search to obtain f3-f30 ..."
   t0 <- itSecs
-  n <- evaluate (length itCandidates)
+  let ctx = itCtx ks
+  _ <- evaluate (length (icEnv ctx))
+  _ <- evaluate (length (show (map fst (itChosen ks))))
   t1 <- itSecs
-  putStrLn ("functions available: " ++ show (length itSndEnv))
-  putStrLn ("third-search candidates: " ++ show n ++ " (enumerated in " ++ show (t1 - t0) ++ " s CPU)")
-  case args of
+  putStrLn ("second search done in " ++ show (t1 - t0) ++ " s CPU; functions available: " ++ show (length (icEnv ctx)))
+  let cands = itCandidates ctx
+  n <- evaluate (length cands)
+  t2 <- itSecs
+  putStrLn ("candidates: " ++ show n ++ " (enumerated in " ++ show (t2 - t1) ++ " s CPU)")
+  case init args of
     ["count"]                -> return ()
-    ["sample", k]            -> itSample (read k) n
-    ["run", s, st, budget]   -> itRun (read s) (read st) (read budget)
-    _                        -> putStrLn "usage: iterate-search count | sample K | run SHARD SHARDS SECONDS"
+    ["sample", k]            -> itSample ctx cands (read k) n
+    ["run", s, st, budget]   -> itRun ctx cands (read s) (read st) (read budget)
+    _                        -> putStrLn "usage: iterate-search count KS | sample K KS | run SHARD SHARDS SECONDS KS"

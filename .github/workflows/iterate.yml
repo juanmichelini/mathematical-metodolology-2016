@@ -9,9 +9,13 @@ permissions:
 
 jobs:
   measure:
-    name: measure third-search size
+    name: measure third-search size (${{ matrix.ks }})
     if: github.ref_name == 'iterate-measure'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ks: ['12', '3,12', '3,12,24']
     steps:
       - uses: actions/checkout@v4
       - uses: haskell-actions/setup@v2
@@ -23,21 +27,23 @@ jobs:
           mkdir -p ci-out
           cabal build exe:iterate-search 2>&1 | tee ci-out/build.log
           exit ${PIPESTATUS[0]}
-      - name: Count candidates and time a sample (30 minute cap)
+      - name: Count candidates and time a sample (15 minute cap)
         shell: bash
         run: |
           lscpu | grep -E "Model name|^CPU\(s\)" | tee ci-out/machine.txt
           set +e
-          timeout 1800 $(cabal list-bin exe:iterate-search) sample 40 2>&1 | tee ci-out/measure.txt
-          echo "exit status: ${PIPESTATUS[0]} (124 = hit the 30 minute cap)" | tee -a ci-out/measure.txt
+          timeout 900 $(cabal list-bin exe:iterate-search) sample 20 ${{ matrix.ks }} 2>&1 | tee ci-out/measure.txt
+          echo "exit status: ${PIPESTATUS[0]} (124 = hit the 15 minute cap)" | tee -a ci-out/measure.txt
           exit 0
-      - name: Publish results to branch ci-results-iterate-measure
+      - name: Publish results
         if: always()
+        shell: bash
         run: |
+          tag=$(echo "${{ matrix.ks }}" | tr ',' '_')
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git checkout --orphan ci-results-iterate-measure
+          git checkout --orphan ci-results-iterate-measure-$tag
           git rm -rf --cached . -q
           git add -f ci-out
           git commit -q -m "measure results for ${{ github.sha }}"
-          git push -f origin ci-results-iterate-measure
+          git push -f origin ci-results-iterate-measure-$tag
