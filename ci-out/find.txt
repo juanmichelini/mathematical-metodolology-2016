@@ -1,0 +1,64 @@
+building blocks: f0-f2 and [3,12,24]
+running the second search to obtain f3-f30 ...
+second search done in 79.578342086 s CPU; functions available: 6
+candidates: 344 (enumerated in 0.37421055499999056 s CPU)
+candidates matching: 11
+-- cand 72: 3.654221903000007 s CPU, 2 lemmas, 0 by induction (NOT kept)
+== KEPT cand 72 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 a (f c a); }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+  lemma  (All a::C_,R b::C_,R )  f (C_,R.1 a) b  ===  f12 (f a b) b
+-- cand 75: 1.6987335029999997 s CPU, 1 lemmas, 1 by induction (NOT kept)
+== KEPT cand 75 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f c a) (f c a); }
+f :: C_,R -> C_,R -> C_,R
+  lemma* (All c::C_,R d::C_,R )  f c d  ===  C_,R.1 C_,R.0
+-- cand 78: 12.022355732999998 s CPU, 2 lemmas, 0 by induction (NOT kept)
+== KEPT cand 78 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f1 a c) (f c a); }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+  lemma  (All a::C_,R b::C_,R )  f (C_,R.1 a) b  ===  f12 (f1 a b) (f a b)
+-- cand 81: 3.8134407029999977 s CPU, 2 lemmas, 0 by induction (NOT kept)
+== KEPT cand 81 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f12 a c) (f c a); }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+  lemma  (All a::C_,R b::C_,R )  f (C_,R.1 a) b  ===  f12 (f12 a b) (f a b)
+-- cand 87: 12.326479813000006 s CPU, 1 lemmas, 0 by induction (NOT kept)
+== KEPT cand 87 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f1 a (f c a)) c; }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+-- cand 90: 4.234525581 s CPU, 1 lemmas, 0 by induction (NOT kept)
+== KEPT cand 90 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f12 a (f c a)) c; }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+-- cand 93: 10.952941093999996 s CPU, 1 lemmas, 0 by induction (NOT kept)
+== KEPT cand 93 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 a (f1 (f c a) c); }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+-- cand 96: 4.198252381999993 s CPU, 1 lemmas, 0 by induction (NOT kept)
+== KEPT cand 96 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 a (f12 (f c a) c); }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+-- cand 132: 7.775192099998662e-2 s CPU, 1 lemmas, 1 by induction (NOT kept)
+== KEPT cand 132 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f c a) (f c a); }
+f :: C_,R -> C_,a_R -> C_,R
+  lemma* (All c::C_,R d::C_,a_R )  f c d  ===  C_,R.1 C_,R.0
+-- cand 135: 0.5818810929999927 s CPU, 1 lemmas, 0 by induction (NOT kept)
+== KEPT cand 135 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f24 a c) (f c a); }
+f :: C_,R -> C_,a_R -> C_,R
+  lemma  (All a::C_,a_R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+-- cand 140: 0.5982226929999968 s CPU, 1 lemmas, 0 by induction (NOT kept)
+== KEPT cand 140 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> f12 (f24 a (f c a)) c; }
+f :: C_,R -> C_,a_R -> C_,R
+  lemma  (All a::C_,a_R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+exit status: 0 (124 = hit the cap)
