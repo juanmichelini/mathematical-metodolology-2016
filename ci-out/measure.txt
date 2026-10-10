@@ -1,0 +1,25 @@
+building blocks: f0-f2 and [3,12,24]
+running the second search to obtain f3-f30 ...
+second search done in 160.497678153 s CPU; functions available: 6
+candidates: 344 (enumerated in 0.7551234579999857 s CPU)
+sample cand 0: 0.5250359489999994 s, 1 lemmas, 0 by induction
+sample cand 17: 7.64862500000163e-3 s, 1 lemmas, 0 by induction
+sample cand 34: 0.14484428099999036 s, 1 lemmas, 0 by induction
+sample cand 51: 8.032920955999998 s, 1 lemmas, 0 by induction
+sample cand 68: 24.042932597999993 s, 1 lemmas, 0 by induction
+sample cand 85: 7.702623611000007 s, 2 lemmas, 0 by induction
+sample cand 102: 0.30873391099999026 s, 1 lemmas, 1 by induction
+sample cand 119: 0.8317743179999866 s, 2 lemmas, 0 by induction
+sample cand 136: 1.1315525410000191 s, 1 lemmas, 0 by induction
+sample cand 153: 1.0246688050000046 s, 1 lemmas, 0 by induction
+sample cand 170: 0.2733983899999828 s, 2 lemmas, 1 by induction
+sample cand 187: 0.2987527660000069 s, 2 lemmas, 1 by induction
+sample cand 204: 0.26444064800000433 s, 1 lemmas, 1 by induction
+sample cand 221: 0.33144430699999816 s, 1 lemmas, 0 by induction
+sample cand 238: 0.2307174129999794 s, 1 lemmas, 0 by induction
+sample cand 255: 6.997670999999173e-2 s, 2 lemmas, 0 by induction
+sample cand 272: 8.532349399999362e-2 s, 1 lemmas, 0 by induction
+sample cand 289: 7.897583700000155e-2 s, 1 lemmas, 0 by induction
+sample cand 306: 3.51925879800001 s, 3 lemmas, 1 by induction
+sample cand 323: 3.9312458740000125 s, 1 lemmas, 0 by induction
+exit status: 0 (124 = hit the 15 minute cap)
