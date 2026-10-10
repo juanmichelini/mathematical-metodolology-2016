@@ -6,3 +6,5 @@ dist-newstyle/
 *.dyn_o
 cabal.project.local*
 .ghc.environment.*
+__pycache__/
+*.pyc
