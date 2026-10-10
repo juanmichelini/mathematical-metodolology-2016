@@ -1,0 +1,4 @@
+building blocks: f0-f2 and [3,4,5,6,7,8,9,10,12,13,15,16,19,24,25,26,27,29]
+running the second search to obtain f3-f30 ...
+second search done in 146.18719434399998 s CPU; functions available: 21
+exit status: 124 (124 = hit the cap before the count finished)
