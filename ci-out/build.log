@@ -1,0 +1,17 @@
+Resolving dependencies...
+Build profile: -w ghc-9.4.8 -O1
+In order, the following will be built (use -v for more details):
+ - foundations-0.1.0.0 (exe:iterate-search) (first run)
+Configuring executable 'iterate-search' for foundations-0.1.0.0...
+Preprocessing executable 'iterate-search' for foundations-0.1.0.0...
+Building executable 'iterate-search' for foundations-0.1.0.0...
+[1 of 9] Compiling Util             ( code/Util.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Util.o )
+[2 of 9] Compiling Syntax           ( code/Syntax.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Syntax.o )
+[3 of 9] Compiling Type             ( code/Type.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Type.o )
+[4 of 9] Compiling Compute          ( code/Compute.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Compute.o )
+[5 of 9] Compiling Prove            ( code/Prove.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Prove.o )
+[6 of 9] Compiling PrettyPrint      ( code/PrettyPrint.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/PrettyPrint.o )
+[7 of 9] Compiling Propose          ( code/Propose.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Propose.o )
+[8 of 9] Compiling Main             ( code/Main.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Main.o )
+[9 of 9] Compiling Iterate          ( code/Iterate.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search-tmp/Iterate.o )
+[10 of 10] Linking dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/iterate-search/build/iterate-search/iterate-search
