@@ -133,6 +133,29 @@ itRun ctx cands s st budget = loop (0 :: Int) (0 :: Int) mine
             else return ()
           loop (done + 1) (if ind >= 2 then kept + 1 else kept) rest
 
+-- Run the search on every candidate whose printed form contains one of the
+-- patterns (separated by '|') and show its lemmas, whether or not it is kept.
+itFind :: ItCtx -> [(Term, Type)] -> String -> IO ()
+itFind ctx cands pat = do
+    let hits = [ (i, c) | (i, c) <- zip [0 :: Int ..] cands, any (\p -> isInfixOf p (toCLI (fst c))) pats ]
+    putStrLn ("candidates matching: " ++ show (length hits))
+    mapM_ one hits
+  where
+    pats = splitBar pat
+    splitBar str = case break (== '|') str of
+                     (a, [])     -> [a]
+                     (a, _ : bs) -> a : splitBar bs
+    one (i, c) = do
+      a <- itSecs
+      let ps  = itSearch ctx c
+          ind = length (filter containsIndc ps)
+      _ <- evaluate ind
+      b <- itSecs
+      putStrLn ("-- cand " ++ show i ++ ": " ++ show (b - a) ++ " s CPU, " ++ show (length ps)
+                ++ " lemmas, " ++ show ind ++ " by induction"
+                ++ (if ind >= 2 then " (would be KEPT)" else " (NOT kept)"))
+      putStr (itReport i c ps)
+
 itParseKs :: String -> [Int]
 itParseKs str = map read (words (map (\c -> if c == ',' then ' ' else c) str))
 
@@ -157,4 +180,5 @@ main = do
     ["count"]                -> return ()
     ["sample", k]            -> itSample ctx cands (read k) n
     ["run", s, st, budget]   -> itRun ctx cands (read s) (read st) (read budget)
+    ["find", pat]            -> itFind ctx cands pat
     _                        -> putStrLn "usage: iterate-search count KS | sample K KS | run SHARD SHARDS SECONDS KS"

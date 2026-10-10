@@ -1,0 +1,43 @@
+name: pow
+
+on:
+  push:
+    branches: ['iterate-pow']
+
+permissions:
+  contents: write
+
+jobs:
+  find:
+    name: look for x^n-style candidates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.4.8'
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p ci-out
+          cabal build exe:iterate-search 2>&1 | tee ci-out/build.log
+          exit ${PIPESTATUS[0]}
+      - name: Find candidates that start at 1 and multiply each step (20 minute cap)
+        shell: bash
+        env:
+          PAT: '-> C_,R.1 C_,R.0; C_,R.1 c -> f12 '
+        run: |
+          set +e
+          timeout 1200 $(cabal list-bin exe:iterate-search) find "$PAT" 3,12,24 2>&1 | tee ci-out/find.txt
+          echo "exit status: ${PIPESTATUS[0]} (124 = hit the cap)" | tee -a ci-out/find.txt
+          exit 0
+      - name: Publish results
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-results-pow
+          git rm -rf --cached . -q
+          git add -f ci-out
+          git commit -q -m "pow results for ${{ github.sha }}"
+          git push -f origin ci-results-pow
