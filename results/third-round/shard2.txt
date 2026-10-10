@@ -1,0 +1,61 @@
+building blocks: f0-f2 and [3,12,24]
+running the second search to obtain f3-f30 ...
+second search done in 113.614222868 s CPU; functions available: 6
+candidates: 344 (enumerated in 0.5319296099999917 s CPU)
+== KEPT cand 50 ==
+f = \b -> \a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> C_,R.1 (f12 (f c a) (f c a)); }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0
+  lemma* (All b::C_,R a::C_,R )  f a (C_,R.1 b)  ===  f a (f b b)
+  lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f12 b g)  ===  f a C_,R.0
+  lemma* (All b::C_,R e::C_,R g::C_,R )  f b (f e g)  ===  f b (f g e)
+progress 25/114 at 206.769610287 s CPU
+== KEPT cand 83 ==
+f = \b -> \a -> case b of { C_,R.0 -> a; C_,R.1 c -> f12 (f c a) c; }
+f :: C_,R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,R.0 a  ===  a
+  lemma* (All a::C_,R )  f a C_,R.0  ===  C_,R.0
+  lemma  (All a::C_,R b::C_,R )  f (C_,R.1 a) b  ===  C_,R.0
+  lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f0 b g)  ===  f0 (f a b) (f a g)
+  lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f12 b g)  ===  f12 (f a g) b
+== KEPT cand 104 ==
+f = \b -> \a -> case b of { C_,R.0 -> f24 (f3 a) (C_,R.1 C_,R.0); C_,R.1 c -> C_,R.1 (f c a); }
+f :: C_,R -> C_,a_R -> C_,R
+  lemma  (All a::C_,a_R )  f C_,R.0 a  ===  f24 (f3 a) (C_,R.1 C_,R.0)
+  lemma* (All a::C_,R )  f a C_,a_R.0  ===  a
+  lemma  (All a::C_,R b::C_,a_R )  f (C_,R.1 a) b  ===  C_,R.1 (f a b)
+  lemma* (All a::C_,R b::C_,R g::C_,a_R )  f (f0 a b) g  ===  f0 (f a g) b
+progress 50/114 at 276.053514115 s CPU
+== KEPT cand 179 ==
+f = \b -> \a -> case b of { C_,a_R.0 -> C_,R.1 C_,R.0; C_,a_R.1 c d -> C_,R.1 (f12 (f d a) (f d a)); }
+f :: C_,a_R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,a_R.0 a  ===  C_,R.1 C_,R.0
+  lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f a b
+  lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f12 b g)  ===  f a g
+== KEPT cand 215 ==
+f = \b -> \a -> case b of { C_,a_R.0 -> a; C_,a_R.1 c d -> f24 d (f d a); }
+f :: C_,a_R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,a_R.0 a  ===  a
+  lemma  (All a::~a b::C_,a_R g::C_,R )  f (C_,a_R.1 a b) g  ===  f24 b (f b g)
+  lemma* (All a::C_,a_R )  f a C_,R.0  ===  C_,R.0
+  lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f0 (f a b) (f a g)
+  lemma* (All b::C_,a_R g::C_,R a::C_,a_R )  f a (f24 b g)  ===  f24 b (f a g)
+== KEPT cand 218 ==
+f = \b -> \a -> case b of { C_,a_R.0 -> a; C_,a_R.1 c d -> f24 (f3 d) (f d a); }
+f :: C_,a_R -> C_,R -> C_,R
+  lemma  (All a::C_,R )  f C_,a_R.0 a  ===  a
+  lemma  (All a::~a b::C_,a_R g::C_,R )  f (C_,a_R.1 a b) g  ===  f24 (f3 b) (f b g)
+  lemma* (All a::C_,a_R )  f a C_,R.0  ===  C_,R.0
+  lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f0 (f a b) (f a g)
+  lemma* (All b::C_,a_R g::C_,R a::C_,a_R )  f a (f24 b g)  ===  f24 b (f a g)
+progress 75/114 at 285.84778917 s CPU
+progress 100/114 at 301.552373061 s CPU
+== KEPT cand 341 ==
+f = \b -> \a -> case b of { C_,a_R.0 -> f3 a; C_,a_R.1 c d -> f3 (f d a); }
+f :: C_,a_R -> C_,a_R -> C_,a_R
+  lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  f3 a
+  lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  C_,a_R.0
+  lemma  (All a::~a b::C_,a_R g::C_,a_R )  f (C_,a_R.1 a b) g  ===  f3 (f b g)
+  lemma* (All b::C_,a_R a::C_,a_R )  f a (f3 b)  ===  f3 (f a b)
+DONE: processed 114/114, kept 7
+exit status: 0 (124 = hit the hard cap)

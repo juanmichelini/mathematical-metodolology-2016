@@ -1,0 +1,225 @@
+[
+ {
+  "i": 49,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.0",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f0 b g)  ===  f a b",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f12 b g)  ===  f a g",
+   "lemma* (All b::C_,R e::C_,R g::C_,R )  f b (f e g)  ===  f b (f g e)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> C_,R.0; C_,R.1 c -> C_,R.1 (f12 (f c a) (f c a)); }",
+  "t": "C_,R -> C_,R -> C_,R"
+ },
+ {
+  "i": 50,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 C_,R.0",
+   "lemma* (All b::C_,R a::C_,R )  f a (C_,R.1 b)  ===  f a (f b b)",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f12 b g)  ===  f a C_,R.0",
+   "lemma* (All b::C_,R e::C_,R g::C_,R )  f b (f e g)  ===  f b (f g e)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> C_,R.1 C_,R.0; C_,R.1 c -> C_,R.1 (f12 (f c a) (f c a)); }",
+  "t": "C_,R -> C_,R -> C_,R"
+ },
+ {
+  "i": 76,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,R.0 a  ===  C_,R.1 (C_,R.1 C_,R.0)",
+   "lemma  (All a::C_,R b::C_,R )  f (C_,R.1 a) b  ===  f12 (f a b) (f a b)",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f0 b g)  ===  f a b",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f12 b g)  ===  f a g",
+   "lemma* (All b::C_,R e::C_,R g::C_,R )  f b (f e g)  ===  f b (f g e)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> C_,R.1 (C_,R.1 C_,R.0); C_,R.1 c -> f12 (f c a) (f c a); }",
+  "t": "C_,R -> C_,R -> C_,R"
+ },
+ {
+  "i": 83,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,R.0 a  ===  a",
+   "lemma* (All a::C_,R )  f a C_,R.0  ===  C_,R.0",
+   "lemma  (All a::C_,R b::C_,R )  f (C_,R.1 a) b  ===  C_,R.0",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f0 b g)  ===  f0 (f a b) (f a g)",
+   "lemma* (All b::C_,R g::C_,R a::C_,R )  f a (f12 b g)  ===  f12 (f a g) b"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> a; C_,R.1 c -> f12 (f c a) c; }",
+  "t": "C_,R -> C_,R -> C_,R"
+ },
+ {
+  "i": 103,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,R.0 a  ===  f24 a (C_,R.1 C_,R.0)",
+   "lemma* (All a::C_,R )  f a C_,a_R.0  ===  a",
+   "lemma  (All a::C_,R b::C_,a_R )  f (C_,R.1 a) b  ===  C_,R.1 (f a b)",
+   "lemma* (All a::C_,R b::C_,R g::C_,a_R )  f (f0 a b) g  ===  f0 (f a g) b"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> f24 a (C_,R.1 C_,R.0); C_,R.1 c -> C_,R.1 (f c a); }",
+  "t": "C_,R -> C_,a_R -> C_,R"
+ },
+ {
+  "i": 104,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,R.0 a  ===  f24 (f3 a) (C_,R.1 C_,R.0)",
+   "lemma* (All a::C_,R )  f a C_,a_R.0  ===  a",
+   "lemma  (All a::C_,R b::C_,a_R )  f (C_,R.1 a) b  ===  C_,R.1 (f a b)",
+   "lemma* (All a::C_,R b::C_,R g::C_,a_R )  f (f0 a b) g  ===  f0 (f a g) b"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> f24 (f3 a) (C_,R.1 C_,R.0); C_,R.1 c -> C_,R.1 (f c a); }",
+  "t": "C_,R -> C_,a_R -> C_,R"
+ },
+ {
+  "i": 174,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,R.0 a  ===  a",
+   "lemma  (All a::C_,R b::C_,a_R )  f (C_,R.1 a) b  ===  f3 (f a b)",
+   "lemma* (All a::C_,R )  f a C_,a_R.0  ===  C_,a_R.0",
+   "lemma* (All b::C_,a_R a::C_,R )  f a (f3 b)  ===  f3 (f a b)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> a; C_,R.1 c -> f3 (f c a); }",
+  "t": "C_,R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 175,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,R.0 a  ===  f3 a",
+   "lemma* (All a::C_,R )  f a C_,a_R.0  ===  C_,a_R.0",
+   "lemma  (All a::C_,R b::C_,a_R )  f (C_,R.1 a) b  ===  f3 (f a b)",
+   "lemma* (All b::C_,a_R a::C_,R )  f a (f3 b)  ===  f3 (f a b)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,R.0 -> f3 a; C_,R.1 c -> f3 (f c a); }",
+  "t": "C_,R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 178,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,a_R.0 a  ===  C_,R.0",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f a b",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f12 b g)  ===  f a g"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,R.0; C_,a_R.1 c d -> C_,R.1 (f12 (f d a) (f d a)); }",
+  "t": "C_,a_R -> C_,R -> C_,R"
+ },
+ {
+  "i": 179,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,a_R.0 a  ===  C_,R.1 C_,R.0",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f a b",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f12 b g)  ===  f a g"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,R.1 C_,R.0; C_,a_R.1 c d -> C_,R.1 (f12 (f d a) (f d a)); }",
+  "t": "C_,a_R -> C_,R -> C_,R"
+ },
+ {
+  "i": 205,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,a_R.0 a  ===  C_,R.1 (C_,R.1 C_,R.0)",
+   "lemma  (All a::~a b::C_,a_R g::C_,R )  f (C_,a_R.1 a b) g  ===  f12 (f b g) (f b g)",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f a b",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f12 b g)  ===  f a g"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,R.1 (C_,R.1 C_,R.0); C_,a_R.1 c d -> f12 (f d a) (f d a); }",
+  "t": "C_,a_R -> C_,R -> C_,R"
+ },
+ {
+  "i": 215,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,a_R.0 a  ===  a",
+   "lemma  (All a::~a b::C_,a_R g::C_,R )  f (C_,a_R.1 a b) g  ===  f24 b (f b g)",
+   "lemma* (All a::C_,a_R )  f a C_,R.0  ===  C_,R.0",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f0 (f a b) (f a g)",
+   "lemma* (All b::C_,a_R g::C_,R a::C_,a_R )  f a (f24 b g)  ===  f24 b (f a g)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> a; C_,a_R.1 c d -> f24 d (f d a); }",
+  "t": "C_,a_R -> C_,R -> C_,R"
+ },
+ {
+  "i": 218,
+  "lem": [
+   "lemma  (All a::C_,R )  f C_,a_R.0 a  ===  a",
+   "lemma  (All a::~a b::C_,a_R g::C_,R )  f (C_,a_R.1 a b) g  ===  f24 (f3 b) (f b g)",
+   "lemma* (All a::C_,a_R )  f a C_,R.0  ===  C_,R.0",
+   "lemma* (All b::C_,R g::C_,R a::C_,a_R )  f a (f0 b g)  ===  f0 (f a b) (f a g)",
+   "lemma* (All b::C_,a_R g::C_,R a::C_,a_R )  f a (f24 b g)  ===  f24 b (f a g)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> a; C_,a_R.1 c d -> f24 (f3 d) (f d a); }",
+  "t": "C_,a_R -> C_,R -> C_,R"
+ },
+ {
+  "i": 244,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  f24 (f3 a) (C_,R.1 C_,R.0)",
+   "lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  f24 a (C_,R.1 C_,R.0)",
+   "lemma  (All a::~a b::C_,a_R g::C_,a_R )  f (C_,a_R.1 a b) g  ===  C_,R.1 (f b g)",
+   "lemma* (All b::C_,a_R a::C_,a_R )  f a (f3 b)  ===  f24 (f2 a b) (C_,R.1 C_,R.0)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> f24 (f3 a) (C_,R.1 C_,R.0); C_,a_R.1 c d -> C_,R.1 (f d a); }",
+  "t": "C_,a_R -> C_,a_R -> C_,R"
+ },
+ {
+  "i": 303,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  C_,a_R.0",
+   "lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  C_,a_R.0",
+   "lemma  (All a::~a b::C_,a_R g::C_,a_R )  f (C_,a_R.1 a b) g  ===  f2 (f3 g) (f b g)",
+   "lemma* (All a::C_,a_R b::C_,a_R g::C_,a_R )  f (f2 a b) g  ===  f2 (f b g) (f a g)",
+   "lemma* (All a::C_,a_R b::C_,a_R )  f (f3 a) b  ===  f a b"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,a_R.0; C_,a_R.1 c d -> f2 (f3 a) (f d a); }",
+  "t": "C_,a_R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 312,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  C_,a_R.0",
+   "lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  a",
+   "lemma* (All a::C_,a_R b::C_,a_R g::C_,a_R )  f (f2 a b) g  ===  f2 (f a g) (f b g)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,a_R.0; C_,a_R.1 c d -> f2 (f3 a) (C_,a_R.1 c (f d a)); }",
+  "t": "C_,a_R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 313,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  C_,a_R.0",
+   "lemma* (All b::C_,a_R g::C_,a_R a::C_,a_R )  f a (f2 b g)  ===  f a b",
+   "lemma* (All b::C_,a_R a::C_,a_R )  f a (f3 b)  ===  f a b",
+   "lemma* (All b::C_,a_R e::C_,a_R g::C_,a_R )  f b (f e g)  ===  f b (f g e)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,a_R.0; C_,a_R.1 c d -> f2 (f3 (f d a)) (C_,a_R.1 c (f d a)); }",
+  "t": "C_,a_R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 328,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  C_,a_R.0",
+   "lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  C_,a_R.0",
+   "lemma* (All a::C_,a_R b::C_,a_R g::C_,a_R )  f (f2 a b) g  ===  f2 (f b g) (f a g)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> C_,a_R.0; C_,a_R.1 c d -> f2 (f d a) (f3 a); }",
+  "t": "C_,a_R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 340,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  a",
+   "lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  C_,a_R.0",
+   "lemma  (All a::~a b::C_,a_R g::C_,a_R )  f (C_,a_R.1 a b) g  ===  f3 (f b g)",
+   "lemma* (All a::C_,a_R b::C_,a_R g::C_,a_R )  f (f2 a b) g  ===  f b (f a g)",
+   "lemma* (All a::C_,a_R b::C_,a_R )  f (f3 a) b  ===  f a b",
+   "lemma* (All b::C_,a_R a::C_,a_R )  f a (f3 b)  ===  f3 (f a b)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> a; C_,a_R.1 c d -> f3 (f d a); }",
+  "t": "C_,a_R -> C_,a_R -> C_,a_R"
+ },
+ {
+  "i": 341,
+  "lem": [
+   "lemma  (All a::C_,a_R )  f C_,a_R.0 a  ===  f3 a",
+   "lemma* (All a::C_,a_R )  f a C_,a_R.0  ===  C_,a_R.0",
+   "lemma  (All a::~a b::C_,a_R g::C_,a_R )  f (C_,a_R.1 a b) g  ===  f3 (f b g)",
+   "lemma* (All b::C_,a_R a::C_,a_R )  f a (f3 b)  ===  f3 (f a b)"
+  ],
+  "f": "\\b -> \\a -> case b of { C_,a_R.0 -> f3 a; C_,a_R.1 c d -> f3 (f d a); }",
+  "t": "C_,a_R -> C_,a_R -> C_,a_R"
+ }
+]
