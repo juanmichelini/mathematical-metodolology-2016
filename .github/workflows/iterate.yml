@@ -1,0 +1,43 @@
+name: iterate
+
+on:
+  push:
+    branches: ['iterate-*']
+
+permissions:
+  contents: write
+
+jobs:
+  measure:
+    name: measure third-search size
+    if: github.ref_name == 'iterate-measure'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.4.8'
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p ci-out
+          cabal build exe:iterate-search 2>&1 | tee ci-out/build.log
+          exit ${PIPESTATUS[0]}
+      - name: Count candidates and time a sample (30 minute cap)
+        shell: bash
+        run: |
+          lscpu | grep -E "Model name|^CPU\(s\)" | tee ci-out/machine.txt
+          set +e
+          timeout 1800 $(cabal list-bin exe:iterate-search) sample 40 2>&1 | tee ci-out/measure.txt
+          echo "exit status: ${PIPESTATUS[0]} (124 = hit the 30 minute cap)" | tee -a ci-out/measure.txt
+          exit 0
+      - name: Publish results to branch ci-results-iterate-measure
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-results-iterate-measure
+          git rm -rf --cached . -q
+          git add -f ci-out
+          git commit -q -m "measure results for ${{ github.sha }}"
+          git push -f origin ci-results-iterate-measure

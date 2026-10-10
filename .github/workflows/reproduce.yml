@@ -2,6 +2,7 @@ name: reproduce
 
 on:
   push:
+    branches-ignore: ['iterate-*', 'timing-*']
   workflow_dispatch:
 
 permissions:

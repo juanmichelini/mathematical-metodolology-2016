@@ -35,3 +35,10 @@ executable experiments
     main-is:          Experiments.hs
     other-modules:    Main, Test, Syntax, Util, Type, Compute, Prove, Propose, PrettyPrint
     ghc-options:      -main-is Experiments
+
+-- Third iteration of the method (see code/Iterate.hs).
+executable iterate-search
+    import:           shared
+    main-is:          Iterate.hs
+    other-modules:    Main, Syntax, Util, Type, Compute, Prove, Propose, PrettyPrint
+    ghc-options:      -main-is Iterate
