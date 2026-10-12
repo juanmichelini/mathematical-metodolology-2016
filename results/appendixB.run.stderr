@@ -1,0 +1,45 @@
+ 696,962,031,384 bytes allocated in the heap
+     977,797,760 bytes copied during GC
+         125,056 bytes maximum residency (575 sample(s))
+          29,400 bytes maximum slop
+               7 MiB total memory in use (0 MB lost due to fragmentation)
+
+                                     Tot time (elapsed)  Avg pause  Max pause
+  Gen  0     167524 colls,     0 par    1.421s   1.508s     0.0000s    0.0003s
+  Gen  1       575 colls,     0 par    0.097s   0.098s     0.0002s    0.0006s
+
+  INIT    time    0.000s  (  0.000s elapsed)
+  MUT     time   80.186s  ( 79.976s elapsed)
+  GC      time    1.518s  (  1.606s elapsed)
+  EXIT    time    0.000s  (  0.008s elapsed)
+  Total   time   81.705s  ( 81.590s elapsed)
+
+  %GC     time       0.0%  (0.0% elapsed)
+
+  Alloc rate    8,691,766,908 bytes per MUT second
+
+  Productivity  98.1% of total user, 98.0% of total elapsed
+
+	Command being timed: "/home/runner/work/foundations/foundations/dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/main/build/main/main +RTS -s -RTS"
+	User time (seconds): 81.28
+	System time (seconds): 0.42
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:21.59
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 11268
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1704
+	Voluntary context switches: 8161
+	Involuntary context switches: 1003
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 1256
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
