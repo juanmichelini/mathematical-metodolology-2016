@@ -1,4 +1,4 @@
-note: This repository preserves the original 2016 thesis code, warts and all.
+Note: This repository preserves the original 2016 thesis code.
 For the updated lean version see https://github.com/juanmichelini/mathematical-methodology
 
 # Foundations for Mathematical Methodology
