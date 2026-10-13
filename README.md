@@ -1,3 +1,6 @@
+note: This repository preserves the original 2016 thesis code, warts and all.
+For the updated lean version see https://github.com/juanmichelini/mathematical-methodology
+
 # Foundations for Mathematical Methodology
 
 Let this sink in: some mathematical methods can be treated as mathematical objects.
