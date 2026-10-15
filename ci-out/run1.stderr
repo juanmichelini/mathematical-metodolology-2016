@@ -1,0 +1,45 @@
+ 696,962,031,384 bytes allocated in the heap
+     977,760,440 bytes copied during GC
+         125,056 bytes maximum residency (575 sample(s))
+          29,400 bytes maximum slop
+               7 MiB total memory in use (0 MB lost due to fragmentation)
+
+                                     Tot time (elapsed)  Avg pause  Max pause
+  Gen  0     167524 colls,     0 par    2.160s   2.253s     0.0000s    0.0004s
+  Gen  1       575 colls,     0 par    0.102s   0.103s     0.0002s    0.0003s
+
+  INIT    time    0.000s  (  0.000s elapsed)
+  MUT     time  154.313s  (153.957s elapsed)
+  GC      time    2.263s  (  2.356s elapsed)
+  EXIT    time    0.000s  (  0.007s elapsed)
+  Total   time  156.576s  (156.320s elapsed)
+
+  %GC     time       0.0%  (0.0% elapsed)
+
+  Alloc rate    4,516,543,969 bytes per MUT second
+
+  Productivity  98.6% of total user, 98.5% of total elapsed
+
+	Command being timed: "/home/runner/work/mathematical-metodolology-2016/mathematical-metodolology-2016/dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/main/build/main/main +RTS -s -RTS"
+	User time (seconds): 155.85
+	System time (seconds): 0.72
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:36.32
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 14124
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1702
+	Voluntary context switches: 15635
+	Involuntary context switches: 1720
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 1256
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
