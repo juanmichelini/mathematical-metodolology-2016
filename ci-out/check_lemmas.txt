@@ -1,0 +1,42 @@
+Lemmas in Test.lemas: 35
+Proved:   35
+Unproved: 0
+
+== PROVED ==
+(All b1::Bool b2::Bool )  mayoria b1 b1 b2  ===  b1
+(All x::Bool )  and x x  ===  x
+(All x::Bool )  ssi x x  ===  True
+(All x::Bool y::Bool )  not (ssi x y)  ===  ssi (not x) y
+(All x::Bool y::Bool )  ssi x y  ===  ssi y x
+(All x::Bool y::Bool )  not (xor x y)  ===  xor (not x) y
+(All x::Bool y::Bool )  xor x y  ===  xor y x
+(All x::Bool y::Bool z::Bool )  xor x (xor y z)  ===  xor (xor x y) z
+(All x::Nat )  suma x O  ===  x
+(All x::Nat y::Nat )  S (suma x y)  ===  suma x (S y)
+(All x::Nat y::Nat )  suma x y  ===  suma y x
+(All x::Nat y::Nat z::Nat )  suma x (suma y z)  ===  suma (suma x y) z
+(All y::Nat )  mult O y  ===  O
+(All x::Nat )  mult x O  ===  O
+(All x::Nat y::Nat )  mult (S x) y  ===  suma y (mult x y)
+(All x::Nat y::Nat )  mult (S x) y  ===  suma y (mult x y)
+(All x::Nat y::Nat )  mult x (S y)  ===  suma x (mult x y)
+(All x::Nat y::Nat )  mult (S x) y  ===  suma (mult x y) y
+(All x::Nat y::Nat )  mult x (S y)  ===  suma (mult x y) x
+(All x::Nat y::Nat z::Nat )  mult x (suma y z)  ===  suma (mult x y) (mult x z)
+(All x::Nat y::Nat z::Nat )  mult (suma y z) x  ===  suma (mult x y) (mult x z)
+(All x::Nat y::Nat )  mult x y  ===  mult y x
+(All x::Nat y::Nat z::Nat )  mult x (mult y z)  ===  mult (mult x y) z
+(All x::Nat )  doble x  ===  suma x x
+(All xs::List )  concat Nil xs  ===  xs
+(All xs::List )  concat xs Nil  ===  xs
+(All x::a xs::List ys::List )  concat (Cons x xs) ys  ===  Cons x (concat xs ys)
+(All xs::List ys::List zs::List )  concat xs (concat ys zs)  ===  concat (concat xs ys) zs
+(All x::a xs::List )  rev (Cons x xs)  ===  concat (rev xs) (Cons x Nil)
+(All x::a )  rev (Cons x Nil)  ===  Cons x Nil
+rev Nil  ===  Nil
+(All xs::List ys::List )  rev (concat xs ys)  ===  concat (rev ys) (rev xs)
+(All xs::List )  rev (rev xs)  ===  xs
+(All xs::List ys::List )  largo (concat xs ys)  ===  suma (largo xs) (largo ys)
+(All xs::List ys::List )  largo (concat xs ys)  ===  largo (concat ys xs)
+
+== UNPROVED ==
