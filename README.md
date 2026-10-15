@@ -3,20 +3,17 @@ For the updated lean version see https://github.com/juanmichelini/mathematical-m
 
 # Foundations for Mathematical Methodology
 
-Let this sink in: some mathematical methods can be treated as mathematical objects.
-We show this by formalizing a mathematical method for exploring lambda calculus.
+A method for discovering and proving theorems that a student can follow like solving a quadratic: mostly just apply the rules, but take an intuitive jump anywhere without breaking anything. Applied to simply typed lambda calculus, it finds `reverse :: [a] -> [a]`, discovers the lemma `reverse (xs ++ ys) = reverse ys ++ reverse xs`, and proves `reverse (reverse xs) = xs`, with human-readable calculational proofs.
 
-First note that we can enumerate all data types, all functions, and all conjectures among those functions.
-Also note that we can do the same for all proofs of those conjectures shorter than some length.
+The method is written to be followed by hand in the PDF `Foundations.pdf`. The same method is implemented as Haskell code under `code/`; running `Main` outputs the LaTeX for all the functions found in the document. Because the method is a program, we can do mathematics on the method itself: some mathematical methods can be treated as mathematical objects.
 
-Of course, we are not interested in all the data types, nor all the proofs. We are interested only in a subspace of those.
+## How it works
 
-We provide a method that can explore both of those spaces in a way that results in human readable calculational proofs regarding simple typed lambda calculus' functions.
+We can enumerate all data types, all functions, and all conjectures among those functions. We can do the same for all proofs of those conjectures shorter than some length.
 
-The strongest result so far is that it finds the reverse::[a] -> [a] function, and then shows that reverse(reverse xs) = xs. This requires that it first discovers the lemma reverse(xs ++ ys) = (reverse ys) ++ (reverse xs), which it does.
+Of course, we are not interested in all the data types, nor all the proofs. We are interested only in a subspace of those. The method explores both of those spaces in a way that results in human-readable calculational proofs about the functions of simply typed lambda calculus.
 
-The method is presented to be followed by humans in the pdf document: Foundations.
-Under the folder `code` we present the same method as Haskell code. Running the Main, it will output the latex code that includes all functions in the document.
+The strongest result so far is the `reverse` example above. Proving that `reverse` is its own inverse requires first discovering the lemma about reversing a concatenation, which the method does.
 
 ## Reproducing the thesis results
 
