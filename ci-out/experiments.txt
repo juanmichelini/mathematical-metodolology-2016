@@ -1,0 +1,133 @@
+== Main.hs: search sizes (paciencia = 30) ==
+  [enumerate first-search candidates: 9.39432e-4 s CPU]
+  first search candidates:  64
+  [first search (findlemas): 0.124358941 s CPU]
+  first search kept:        3  (thesis: f0-f2 = 3)
+  [enumerate second-search candidates: 7.3507951e-2 s CPU]
+  second search candidates: 164
+  [second search (findlemas): 84.838622048 s CPU]
+  second search kept:       28  (thesis: f3-f30 = 28)
+
+== First search vs paciencia ==
+  [paciencia=5: 0.16291823 s CPU]
+  paciencia=5: kept 0, lemmas per kept function []
+  [paciencia=10: 3.2118167e-2 s CPU]
+  paciencia=10: kept 3, lemmas per kept function [4,4,4]
+  [paciencia=20: 3.0295506e-2 s CPU]
+  paciencia=20: kept 3, lemmas per kept function [7,7,4]
+  [paciencia=30: 3.0268406e-2 s CPU]
+  paciencia=30: kept 3, lemmas per kept function [7,7,4]
+  [paciencia=40: 3.075998e-2 s CPU]
+  paciencia=40: kept 3, lemmas per kept function [7,7,4]
+
+== Test.hs: lemmas found for suma, mult (inputs to the flipexp search) ==
+  [suma: 7.923177e-3 s CPU]
+  suma:  (All a::Nat )  suma O a  ===  a
+  suma:  (All a::Nat )  suma a O  ===  a
+  suma:  (All a::Nat b::Nat )  suma (S a) b  ===  S (suma b a)
+  suma:  (All b::Nat a::Nat )  suma a (S b)  ===  S (suma a b)
+  suma:  (All c::Nat d::Nat )  suma c d  ===  suma d c
+  suma:  (All a::Nat b::Nat f::Nat )  suma (suma a b) f  ===  suma (suma a f) b
+  suma:  (All b::Nat e::Nat f::Nat )  suma b (suma e f)  ===  suma (suma b e) f
+  [mult: 0.165260002 s CPU]
+  mult:  (All a::Nat )  mult O a  ===  O
+  mult:  (All a::Nat )  mult a O  ===  O
+  mult:  (All a::Nat b::Nat )  mult (S a) b  ===  suma (mult a b) b
+  mult:  (All b::Nat a::Nat )  mult a (S b)  ===  suma a (mult a b)
+  mult:  (All a::Nat b::Nat f::Nat )  mult (suma a b) f  ===  suma (mult b f) (mult f a)
+  mult:  (All b::Nat f::Nat a::Nat )  mult a (suma b f)  ===  suma (mult a b) (mult a f)
+  mult:  (All c::Nat d::Nat )  mult c d  ===  mult d c
+  mult:  (All b::Nat e::Nat f::Nat )  mult b (mult e f)  ===  mult (mult b e) f
+
+== Test.hs: lemmas found for flipexp (thesis Sec. 10: two lemmas) ==
+  [flipexp: 1.947092883 s CPU]
+  flipexp: (All a::Nat )  flipexp O a  ===  S O
+  flipexp: (All a::Nat b::Nat )  flipexp (S a) b  ===  mult (flipexp a b) b
+  flipexp: (All a::Nat b::Nat f::Nat )  flipexp (suma a b) f  ===  mult (flipexp a f) (flipexp b f)
+  flipexp: (All a::Nat b::Nat f::Nat )  flipexp (mult a b) f  ===  flipexp a (flipexp b f)
+
+== Test.hs: full proofs found for flipexp ==
+(All a::Nat )  flipexp O a  ===  S O
+	{ Left Compute }
+(All a::Nat )  S O  ===  S O
+	{ Triv. }
+Done
+
+(All a::Nat b::Nat )  flipexp (S a) b  ===  mult (flipexp a b) b
+	{ Left Compute }
+(All a::Nat b::Nat )  mult (flipexp a b) b  ===  mult (flipexp a b) b
+	{ Triv. }
+Done
+
+(All a::Nat b::Nat f::Nat )  flipexp (suma a b) f  ===  mult (flipexp a f) (flipexp b f)
+Induction a
+
+Tesis
+
+    (All b::Nat f::Nat )  flipexp (suma O b) f  ===  mult (flipexp O f) (flipexp b f)
+    	{ Left Compute | Right Compute }
+    (All b::Nat f::Nat )  flipexp b f  ===  mult (S O) (flipexp b f)
+    	{ Right Compute }
+    (All b::Nat f::Nat )  flipexp b f  ===  suma (mult O (flipexp b f)) (flipexp b f)
+    	{ Right Compute }
+    (All b::Nat f::Nat )  flipexp b f  ===  suma O (flipexp b f)
+    	{ Right Compute }
+    (All b::Nat f::Nat )  flipexp b f  ===  flipexp b f
+    	{ Triv. }
+    Done
+
+ 
+H)(All b::Nat f::Nat )  flipexp (suma c b) f  ===  mult (flipexp c f) (flipexp b f)
+
+Tesis
+
+    (All b::Nat f::Nat )  flipexp (suma (S c) b) f  ===  mult (flipexp (S c) f) (flipexp b f)
+    	{ Left Compute | Right Compute }
+    (All b::Nat f::Nat )  flipexp (S (suma c b)) f  ===  mult (mult (flipexp c f) f) (flipexp b f)
+    	{ Left Compute }
+    (All b::Nat f::Nat )  mult (flipexp (suma c b) f) f  ===  mult (mult (flipexp c f) f) (flipexp b f)
+    	{ Left Simp: (All b::Nat f::Nat )  flipexp (suma c b) f  ===  mult (flipexp c f) (flipexp b f) }
+    (All b::Nat f::Nat )  mult (mult (flipexp c f) (flipexp b f)) f  ===  mult (mult (flipexp c f) f) (flipexp b f)
+    	{ Left Reor: (All b::Nat e::Nat f::Nat )  mult (mult b e) f  ===  mult b (mult e f) | Right Reor: (All b::Nat e::Nat f::Nat )  mult (mult b e) f  ===  mult b (mult e f) }
+    (All b::Nat f::Nat )  mult (flipexp c f) (mult (flipexp b f) f)  ===  mult (flipexp c f) (mult f (flipexp b f))
+    	{ Left Reor: (All c::Nat d::Nat )  mult d c  ===  mult c d | Right Reor: (All c::Nat d::Nat )  mult d c  ===  mult c d }
+    (All b::Nat f::Nat )  mult (mult (flipexp b f) f) (flipexp c f)  ===  mult (flipexp c f) (mult (flipexp b f) f)
+    	{ Left Reor: (All b::Nat e::Nat f::Nat )  mult (mult b e) f  ===  mult b (mult e f) | Right Reor: (All c::Nat d::Nat )  mult d c  ===  mult c d }
+    (All b::Nat f::Nat )  mult (flipexp b f) (mult f (flipexp c f))  ===  mult (mult (flipexp b f) f) (flipexp c f)
+    	{ Left Reor: (All c::Nat d::Nat )  mult d c  ===  mult c d | Right Reor: (All b::Nat e::Nat f::Nat )  mult (mult b e) f  ===  mult b (mult e f) }
+    (All b::Nat f::Nat )  mult (flipexp b f) (mult (flipexp c f) f)  ===  mult (flipexp b f) (mult f (flipexp c f))
+    	{ Right Reor: (All c::Nat d::Nat )  mult d c  ===  mult c d }
+    (All b::Nat f::Nat )  mult (flipexp b f) (mult (flipexp c f) f)  ===  mult (flipexp b f) (mult (flipexp c f) f)
+    	{ Triv. }
+    Done
+
+
+(All a::Nat b::Nat f::Nat )  flipexp (mult a b) f  ===  flipexp a (flipexp b f)
+Induction a
+
+Tesis
+
+    (All b::Nat f::Nat )  flipexp (mult O b) f  ===  flipexp O (flipexp b f)
+    	{ Left Compute | Right Compute }
+    (All b::Nat f::Nat )  flipexp O f  ===  S O
+    	{ Left Compute }
+    (All b::Nat f::Nat )  S O  ===  S O
+    	{ Triv. }
+    Done
+
+ 
+H)(All b::Nat f::Nat )  flipexp (mult c b) f  ===  flipexp c (flipexp b f)
+
+Tesis
+
+    (All b::Nat f::Nat )  flipexp (mult (S c) b) f  ===  flipexp (S c) (flipexp b f)
+    	{ Left Compute | Right Compute }
+    (All b::Nat f::Nat )  flipexp (suma (mult c b) b) f  ===  mult (flipexp c (flipexp b f)) (flipexp b f)
+    	{ Left Simp: (All a::Nat b::Nat f::Nat )  flipexp (suma a b) f  ===  mult (flipexp a f) (flipexp b f) }
+    (All b::Nat f::Nat )  mult (flipexp (mult c b) f) (flipexp b f)  ===  mult (flipexp c (flipexp b f)) (flipexp b f)
+    	{ Left Simp: (All b::Nat f::Nat )  flipexp (mult c b) f  ===  flipexp c (flipexp b f) }
+    (All b::Nat f::Nat )  mult (flipexp c (flipexp b f)) (flipexp b f)  ===  mult (flipexp c (flipexp b f)) (flipexp b f)
+    	{ Triv. }
+    Done
+
+

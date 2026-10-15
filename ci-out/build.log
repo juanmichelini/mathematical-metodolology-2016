@@ -1,0 +1,18 @@
+Resolving dependencies...
+Build profile: -w ghc-9.4.8 -O1
+In order, the following will be built (use -v for more details):
+ - foundations-0.1.0.0 (exe:experiments) (first run)
+Configuring executable 'experiments' for foundations-0.1.0.0...
+Preprocessing executable 'experiments' for foundations-0.1.0.0...
+Building executable 'experiments' for foundations-0.1.0.0...
+[ 1 of 10] Compiling Util             ( code/Util.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Util.o )
+[ 2 of 10] Compiling Syntax           ( code/Syntax.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Syntax.o )
+[ 3 of 10] Compiling Type             ( code/Type.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Type.o )
+[ 4 of 10] Compiling Compute          ( code/Compute.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Compute.o )
+[ 5 of 10] Compiling Prove            ( code/Prove.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Prove.o )
+[ 6 of 10] Compiling PrettyPrint      ( code/PrettyPrint.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/PrettyPrint.o )
+[ 7 of 10] Compiling Propose          ( code/Propose.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Propose.o )
+[ 8 of 10] Compiling Test             ( code/Test.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Test.o )
+[ 9 of 10] Compiling Main             ( code/Main.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Main.o )
+[10 of 10] Compiling Experiments      ( code/Experiments.hs, dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments-tmp/Experiments.o )
+[11 of 11] Linking dist-newstyle/build/x86_64-linux/ghc-9.4.8/foundations-0.1.0.0/x/experiments/build/experiments/experiments
